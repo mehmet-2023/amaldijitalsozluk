@@ -1,0 +1,200 @@
+:root {
+    --mavi-700: #1e3a8a;
+    --mavi-600: #2563eb;
+    --mavi-50:  #eff6ff;
+    --gri-100:  #f3f4f6;
+    --gri-500:  #6b7280;
+    --beyaz:    #ffffff;
+    --siyah:    #0f172a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+    color: var(--siyah);
+    background: var(--mavi-50);
+    line-height: 1.6;
+}
+
+/* Üst bölüm */
+header {
+    background: linear-gradient(135deg, var(--mavi-700), var(--mavi-600));
+    color: var(--beyaz);
+    padding: 40px 16px;
+    text-align: center;
+}
+header .logo {
+    width: 80px;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 4px rgba(2,6,23,0.25));
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 6px;
+}
+header h1 {
+    margin: 0;
+    font-size: clamp(20px, 4vw, 32px);
+    letter-spacing: 1px;
+}
+header p {
+    margin: 8px 0 0;
+    opacity: .95;
+    font-size: clamp(14px, 2.2vw, 18px);
+    font-style: italic;
+}
+
+/* Sayfa içi konteyner */
+.container {
+    max-width: 1000px;
+    margin: -24px auto 40px;
+    padding: 0 16px;
+}
+
+/* Arama ve filtre kartı */
+.search-card {
+    background: var(--beyaz);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 10px 20px rgba(2,6,23,0.08), 0 2px 6px rgba(2,6,23,0.06);
+}
+.input-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.input-row input[type="search"] {
+    flex: 1 1 260px;
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: box-shadow .2s, border-color .2s;
+}
+.input-row input[type="search"]:focus {
+    border-color: var(--mavi-600);
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+}
+
+/* Harf butonları */
+.letters {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.letters button {
+    padding: 8px 10px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--siyah);
+    transition: background .2s, color .2s, border-color .2s, transform .04s;
+}
+.letters button:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+}
+.letters button.active {
+    background: var(--mavi-600);
+    color: var(--beyaz);
+    border-color: transparent;
+}
+
+/* Sonuçlar ve kartlar */
+.results {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+.card {
+    background: var(--beyaz);
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px;
+    transition: box-shadow .2s, transform .06s;
+}
+.card:hover {
+    box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+    transform: translateY(-1px);
+}
+.kelime {
+    color: var(--mavi-600);
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+.anlam {
+    color: #111827;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+.ornek {
+    color: var(--gri-500);
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.kaynak {
+    font-size: 12px;
+    color: #64748b;
+}
+.empty {
+    text-align: center;
+    padding: 24px;
+    color: #64748b;
+}
+
+/* Alt bilgi */
+footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: #475569;
+    font-size: 14px;
+}
+footer .footer-note {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #94a3b8; /* silik görünüm */
+}
+
+@media (min-width: 768px) {
+    .search-card { padding: 20px; }
+}
+
+/* Ek bölümler */
+.section {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+}
+.section h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    color: var(--mavi-600);
+}
+.section .list {
+    margin: 8px 0 0 18px;
+}
+.section .note {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #475569;
+}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+@media (min-width: 768px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+}
+
