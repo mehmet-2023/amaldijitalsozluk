@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bilmece Oyunu — Dilimizin Zenginlikleri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+/* ---------- Bilmece Oyunu Özel Stilleri ---------- */
+.quiz-container{max-width:600px;margin:0 auto;padding:20px}
+#quizCard{
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(148,163,184,.3);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 12px 32px rgba(2,6,23,.12);
+    position:relative;overflow:hidden
+}
+#quizCard::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#f59e0b);
+    border-radius:20px 20px 0 0
+}
+#progress{
+    font-weight:700;font-size:18px;color:var(--mavi-600);
+    text-align:center;margin-bottom:16px;letter-spacing:.5px
+}
+#definition{
+    font-size:18px;line-height:1.6;color:#1e293b;
+    background:rgba(239,246,255,.7);padding:16px;
+    border-radius:14px;border-left:4px solid var(--mavi-600);
+    margin-bottom:20px;font-style:italic
+}
+#options{display:grid;gap:12px;margin-bottom:16px}
+.option-btn{
+    background:linear-gradient(135deg,#f8fafc,#f1f5f9);
+    border:1px solid #e2e8f0;border-radius:14px;
+    padding:14px 16px;font-size:16px;font-weight:600;
+    color:#1e293b;cursor:pointer;transition:all .2s;
+    box-shadow:0 2px 6px rgba(0,0,0,.05);
+    position:relative;overflow:hidden
+}
+.option-btn:hover:not(:disabled){
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(59,130,246,.2);
+    border-color:#3b82f6
+}
+.option-btn.correct{
+    background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+    border-color:#22c55e;color:#166534;animation:pulse .6s
+}
+.option-btn.incorrect{
+    background:linear-gradient(135deg,#fee2e2,#fecaca);
+    border-color:#ef4444;color:#991b1b
+}
+.option-btn::after{
+    content:"";position:absolute;top:50%;left:50%;
+    width:0;height:0;background:rgba(255,255,255,.3);
+    border-radius:50%;transform:translate(-50%,-50%);
+    transition:width .4s,height .4s
+}
+.option-btn:active::after{width:300px;height:300px}
+#feedback{
+    font-weight:600;font-size:16px;text-align:center;
+    min-height:24px;padding:8px 0
+}
+#controls{
+    display:flex;gap:12px;justify-content:center;
+    flex-wrap:wrap;margin-top:20px
+}
+.load-more{
+    padding:12px 20px !important;font-weight:600 !important;
+    border-radius:12px !important;min-width:140px
+}
+
+/* ---------- Popup ---------- */
+.popup-overlay{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(15,23,42,.85);backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;
+    z-index:1000;opacity:0;visibility:hidden;
+    transition:all .3s
+}
+.popup-overlay.show{opacity:1;visibility:visible}
+.popup{
+    background:#fff;border-radius:20px;padding:32px;
+    max-width:90%;width:420px;text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+    transform:scale(.8);transition:transform .3s
+}
+.popup-overlay.show .popup{transform:scale(1)}
+.popup h3{margin:0 0 16px;font-size:28px;color:#1e40af}
+.popup p{margin:0 0 24px;color:#475569;font-size:16px}
+.popup .emoji{font-size:64px;margin-bottom:16px;display:block}
+.popup .btn-group{display:flex;gap:12px;justify-content:center}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@media(max-width:480px){
+    #quizCard{padding:16px}
+    #definition{font-size:16px;padding:12px}
+    .option-btn{padding:12px;font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<header class="hero">
+    <h1>Bilmece Oyunu</h1>
+    <p>5 soruda ne kadar dayanabileceksin? Anlamdan kelimeyi bul!</p>
+</header>
+
+<main class="container">
+    <section class="search-card" aria-label="Bilmece Oyunu">
+        <div class="quiz-container">
+            <div id="quizCard" class="section">
+                <div id="progress">Soru 1 / 5</div>
+                <div id="definition">Yükleniyor…</div>
+                <div id="options"></div>
+                <div id="feedback"></div>
+                <div id="controls">
+                    <button id="retryBtn" class="load-more" style="display:none;">Tekrar Oyna</button>
+                    <a href="index.html" class="load-more" style="text-decoration:none;">Ana Sayfa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Popup -->
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup">
+        <div class="emoji" id="popupEmoji">Trophy</div>
+        <h3 id="popupTitle">Tebrikler!</h3>
+        <p id="popupMessage">Tüm soruları doğru bildin! Gerçek bir dil şampiyonusun!</p>
+        <div class="btn-group">
+            <button id="popupRetry" class="load-more">Tekrar Oyna</button>
+            <a href="index.html" class="load-more" style="text-decoration:none;">Ana Sayfa</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2025 Adnan Menderes Anadolu Lisesi. Proje: Dilimizin Zenginlikleri
+    <div class="footer-note">Website by: Ocal</div>
+</footer>
+
+<script>
+const definitionEl = document.getElementById('definition');
+const optionsEl    = document.getElementById('options');
+const feedbackEl   = document.getElementById('feedback');
+const progressEl   = document.getElementById('progress');
+const retryBtn     = document.getElementById('retryBtn');
+
+const popupOverlay = document.getElementById('popupOverlay');
+const popupTitle   = document.getElementById('popupTitle');
+const popupMessage = document.getElementById('popupMessage');
+const popupEmoji   = document.getElementById('popupEmoji');
+const popupRetry   = document.getElementById('popupRetry');
+
+let tumVeri = [];
+let soruIndex = 0;
+let oyunBitti = false;
+let dogruCevapSayisi = 0;
+const HEDEF_SORU = 5;
+
+/* ---------- Yardımcı Fonksiyonlar ---------- */
+function karistir(dizi){
+    return dizi.map(x=>({x,r:Math.random()}))
+               .sort((a,b)=>a.r-b.r).map(o=>o.x);
+}
+function secFarkliElemanlar(dizi,adet,hariç){
+    const havuz = dizi.filter(x=>x!==hariç);
+    return karistir(havuz).slice(0,adet);
+}
+let sonDogru = null;
+function uretilenSoru(){
+    const dogru = tumVeri[Math.floor(Math.random()*tumVeri.length)];
+    if(sonDogru && tumVeri.length>1 && dogru===sonDogru) return uretilenSoru();
+    sonDogru = dogru;
+    const yanlislar = secFarkliElemanlar(tumVeri,3,dogru);
+    return {dogru, secenekler:karistir([dogru,...yanlislar])};
+}
+function kilitleSecenekler(){
+    optionsEl.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);
+}
+
+/* ---------- Soru Gösterimi ---------- */
+function gosterSoru(){
+    if(oyunBitti) return;
+    optionsEl.innerHTML=''; feedbackEl.textContent='';
+
+    if(!tumVeri.length){
+        definitionEl.textContent='Veri yüklenemedi.'; return;
+    }
+
+    progressEl.textContent=`Soru ${soruIndex+1} / ${HEDEF_SORU}`;
+    const {dogru, secenekler}=uretilenSoru();
+    definitionEl.textContent=dogru.anlam;
+
+    secenekler.forEach(secenek=>{
+        const btn=document.createElement('button');
+        btn.type='button'; btn.className='option-btn';
+        btn.textContent=secenek.kelime;
+        btn.addEventListener('click',()=> {
+            if(btn.disabled||oyunBitti) return;
+            const dogruMu = secenek.kelime===dogru.kelime;
+            kilitleSecenekler();
+
+            if(dogruMu){
+                btn.classList.add('correct');
+                feedbackEl.textContent='Doğru! Harika!';
+                feedbackEl.style.color='#16a34a';
+                dogruCevapSayisi++;
+                setTimeout(()=>{   // otomatik bir sonraki soru
+                    soruIndex++;
+                    if(soruIndex>=HEDEF_SORU){ gosterSonuc(true); return; }
+                    gosterSoru();
+                },800);
+            }else{
+                btn.classList.add('incorrect');
+                const dogruBtn = Array.from(optionsEl.querySelectorAll('.option-btn'))
+                                 .find(b=>b.textContent===dogru.kelime);
+                dogruBtn.classList.add('correct');
+                feedbackEl.innerHTML=`Yanlış! <strong>${dogru.kelime}</strong> olacaktı.`;
+                feedbackEl.style.color='#dc2626';
+                oyunBitti=true;
+                setTimeout(()=>gosterSonuc(false),500);
+            }
+        });
+        optionsEl.appendChild(btn);
+    });
+}
+
+/* ---------- Sonuç Popup ---------- */
+function gosterSonuc(kazandi){
+    oyunBitti=true; retryBtn.style.display='inline-block';
+    if(kazandi){
+        popupEmoji.textContent='🏆️';
+        popupTitle.textContent='ŞAMPİYON!';
+        popupMessage.innerHTML=`Tebrikler! <strong>${HEDEF_SORU} sorunun hepsini</strong> doğru bildin!<br><br>Dilimizin zenginliklerini çok iyi biliyorsun!`;
+    }else{
+        popupEmoji.textContent='🤔';
+        popupTitle.textContent='Elenidin!';
+        popupMessage.innerHTML=`<strong>${dogruCevapSayisi} doğru</strong> cevabın var.<br><br>Bir dahaki sefere daha iyi yapabilirsin!`;
+    }
+    popupOverlay.classList.add('show');
+}
+
+/* ---------- Oyun Sıfırlama ---------- */
+function resetOyun(){
+    oyunBitti=false; soruIndex=0; dogruCevapSayisi=0;
+    popupOverlay.classList.remove('show');
+    gosterSoru();
+}
+retryBtn.addEventListener('click',resetOyun);
+popupRetry.addEventListener('click',()=>{popupOverlay.classList.remove('show'); resetOyun();});
+
+/* ---------- Veri Yükleme ---------- */
+fetch('data.json')
+ .then(r=>r.json())
+ .then(d=>{tumVeri=Array.isArray(d)?d:[]; if(tumVeri.length<4){definitionEl.textContent='Yeterli kelime verisi yok.';return;} gosterSoru();})
+ .catch(()=>{definitionEl.textContent='Veri yüklenemedi.';});
+</script>
+</body>
+</html>

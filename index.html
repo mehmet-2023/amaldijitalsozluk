@@ -1,54 +1,65 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adnan Menderes Anadolu Lisesi - Dilimizin Zenginlikleri Dijital Sözlük</title>
-    <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adnan Menderes Anadolu Lisesi - Dilimizin Zenginlikleri Dijital Sözlük</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <img class="logo" src="logo.png" alt="Adnan Menderes Anadolu Lisesi Logosu" />
-        <h1>ADNAN MENDERES ANADOLU LİSESİ — DİLİMİZİN ZENGİNLİKLERİ</h1>
-        <p>Okulumuzun projesiyle Türkçe’mizin unutulmaz kelimelerini keşfedin!</p>
-    </header>
-
-    <main class="container">
-        <section class="search-card" aria-label="Sözlük arama ve filtreleme">
-            <div class="input-row">
-                <input id="searchInput" type="search" placeholder="Kelime arayın" aria-label="Kelime arama" />
-            </div>
-            <div class="letters" id="letters"></div>
-            <div class="results" id="results" role="list"></div>
-            <div class="empty" id="empty" hidden>Hiçbir kelime bulunamadı. Yeni kelime önerin!</div>
-        </section>
-        <section class="section" id="proje-hakkinda">
-            <h2>Proje Hakkında</h2>
-            <p><strong>Dilimizin Zenginlikleri</strong>, Adnan Menderes Anadolu Lisesi öğrencilerinin Türkçe’nin inceliklerini, unutulmaya yüz tutmuş kelimelerini ve kültürel mirasını keşfetmesini amaçlayan bir araştırma ve üretim projesidir. Bu sayfa hem çevrimiçi bir mini sözlük hem de projemizin kamusal vitrinidir.</p>
-        </section>
-
-        <section class="section" id="amaclar">
-            <h2>Hedeflerimiz</h2>
-            <ul class="list">
-                <li>Türkçe’nin zengin söz varlığını görünür kılmak</li>
-                <li>Kelime öğrenimini güncel ve erişilebilir bir deneyime dönüştürmek</li>
-                <li>Öğrencilerde dil bilinci, merak ve araştırma isteği oluşturmak</li>
-            </ul>
-        </section>
-
-        <section class="section" id="yontem">
-            <h2>Yöntem ve Çalışma</h2>
-            <p>Öğrenciler; sözlük taramaları, alan yazın incelemeleri ve yaşlı kuşaklarla sözlü tarih görüşmeleri gibi yöntemlerle kelimeleri derlemekte; her kayıt için anlam ve örnek cümle üretmektedir. Sitedeki arama ve A–Z filtreleriyle içerik kolayca bulunabilir.</p>
-        </section>
-
-        
-    </main>
-    <footer>
-        © 2025 Adnan Menderes Anadolu Lisesi. Proje danışmanı: Uygar YILDIZ. 
-        <div class="footer-note">Website by: Ocal</div>
-    </footer>
-
-    <script src="app.js"></script>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+<header class="hero">
+<img class="logo" src="logo.png" alt="Adnan Menderes Anadolu Lisesi Logosu" />
+<h1>ADNAN MENDERES ANADOLU LİSESİ — DİLİMİZİN ZENGİNLİKLERİ</h1>
+<p>Okulumuzun projesiyle Türkçe’mizin unutulmaz kelimelerini keşfedin!</p>
+</header>
+<main class="container">
+<section class="search-card" aria-label="Sözlük arama ve filtreleme">
+<div class="input-row">
+<input id="searchInput" type="search" placeholder="Kelime arayın" aria-label="Kelime arama" />
+</div>
+<div class="letters" id="letters"></div>
+<div class="results" id="results" role="list"></div>
+<div class="empty" id="empty" hidden>Hiçbir kelime bulunamadı. Yeni kelime önerin!</div>
+<button id="loadMore" class="load-more" hidden>Daha Fazla</button>
+</section>
+<section class="section" id="rastgele">
+<h2>Rastgele Sözcük</h2>
+<p>Bugün yeni bir kelime keşfet.</p>
+<button id="randomBtn" class="load-more" type="button">Rastgele Göster</button>
+<div id="randomDisplay" style="margin-top:10px;"></div>
+</section>
+<section class="section" id="bilmece-duyuru">
+<h2>Bilmece Oyunu</h2>
+<p>Anlamdan kelimeyi tahmin edebilecek misin? 5 soruluk mini oyunda yanlış yaparsan elenirsin. Sonuna kadar doğru bil, şampiyon ol!</p>
+<a href="bilmece.html" class="load-more" style="text-decoration:none; display:inline-block;">Hemen Başla</a>
+</section>
+<section class="section" id="proje-hakkinda">
+<h2>Proje Hakkında</h2>
+<p><strong>Dilimizin Zenginlikleri</strong>, Adnan Menderes Anadolu Lisesi öğrencilerinin Türkçe’nin inceliklerini, unutulmaya yüz tutmuş kelimelerini ve kültürel mirasını keşfetmesini amaçlayan bir araştırma ve üretim projesidir. Bu sayfa hem çevrimiçi bir mini sözlük hem de projemizin kamusal vitrinidir.</p>
+</section>
+<section class="section" id="amaclar">
+<h2>Hedeflerimiz</h2>
+<ul class="list">
+<li>Türkçe’nin zengin söz varlığını görünür kılmak</li>
+<li>Kelime öğrenimini güncel ve erişilebilir bir deneyime dönüştürmek</li>
+<li>Öğrencilerde dil bilinci, merak ve araştırma isteği oluşturmak</li>
+</ul>
+</section>
+<section class="section" id="yontem">
+<h2>Yöntem ve Çalışma</h2>
+<p>Öğrenciler; sözlük taramaları, alan yazın incelemeleri ve yaşlı kuşaklarla sözlü tarih görüşmeleri gibi yöntemlerle kelimeleri derlemekte; her kayıt için anlam ve örnek cümle üretmektedir. Sitedeki arama ve A–Z filtreleriyle içerik kolayca bulunabilir.</p>
+</section>
+</main>
+<footer>
+        © 2025 Adnan Menderes Anadolu Lisesi. Proje danışmanı: Uygar YILDIZ.
+<div class="footer-note">Website by: Ocal</div>
+</footer>
+<script src="app.js"></script>
 </body>
 </html>
-
